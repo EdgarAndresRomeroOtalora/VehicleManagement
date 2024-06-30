@@ -10,22 +10,22 @@ public class Vehiculo {
 
     private String matricula;
 
-    private LocalDate año;
+    private LocalDate anio;
 
     public Vehiculo() {
     }
 
-    public Vehiculo(Integer id, Marca marca, String matricula, LocalDate año) {
+    public Vehiculo(Integer id, Marca marca, String matricula, LocalDate anio) {
         this.id = id;
         this.marca = marca;
         this.matricula = matricula;
-        this.año = año;
+        this.anio = anio;
     }
 
-    public Vehiculo(Marca marca, String matricula, LocalDate año) {
+    public Vehiculo(Marca marca, String matricula, LocalDate anio) {
         this.marca = marca;
         this.matricula = matricula;
-        this.año = año;
+        this.anio = anio;
     }
 
     public Integer getId() {
@@ -52,11 +52,11 @@ public class Vehiculo {
         this.matricula = matricula;
     }
 
-    public LocalDate getAño() {
-        return año;
+    public LocalDate getAnio() {
+        return anio;
     }
 
-    public void setAño(LocalDate año) {
-        this.año = año;
+    public void setAnio(LocalDate anio) {
+        this.anio = anio;
     }
 }
