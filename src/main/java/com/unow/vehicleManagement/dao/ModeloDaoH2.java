@@ -25,6 +25,7 @@ public class ModeloDaoH2 implements IDao<Modelo>{
     public Modelo save(Modelo modelo) {
         Connection connection = null;
         try {
+            connection = DB.getConnection();
             PreparedStatement ps = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, modelo.getNombreModelo());
             ps.setString(2, modelo.getColorModelo());
@@ -83,6 +84,7 @@ public class ModeloDaoH2 implements IDao<Modelo>{
             PreparedStatement ps = connection.prepareStatement(SQL_UPDATE);
             ps.setString(1, modelo.getNombreModelo());
             ps.setString(2, modelo.getColorModelo());
+            ps.setInt(3, modelo.getId());
             ps.execute();
 
         }catch (Exception e){
