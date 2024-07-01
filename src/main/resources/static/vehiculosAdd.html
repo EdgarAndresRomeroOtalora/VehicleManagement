@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Vehículos</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/index.html">Vehículos</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+          Gestión vehículos
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="vehiculosList.html">Listar vehículos</a>
+          <a class="dropdown-item" href="vehiculosAdd.html">Agregar vehículos</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link" href="/vehiculosList.html">Listar Vehículos</a>
+    </li>
+  </ul>
+  <div class="row">
+    <div class="col-sm-7" style="background-color:#e6fffa; padding:10px; border-radius:3px">
+      <h3>Agregar vehículos</h3>
+      <form id="add_new_vehiculo">
+        <div class="form-group">
+          <label class="control-label" for="marca">Marca:</label>
+          <input type="text" class="form-control" id="marca"
+                 placeholder="Ingrese la marca"
+                 name="marca" required></input>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="modelo">Modelo:</label>
+          <input type="text" class="form-control" id="modelo"
+                 placeholder="Ingrese el modelo"
+                 name="modelo" required></input>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="color">Color:</label>
+          <input type="text" class="form-control" id="color"
+                 placeholder="Ingrese el color"
+                 name="color" required></input>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="matricula">Matrícula:</label>
+          <input type="text" class="form-control" id="matricula"
+                 placeholder="Ingrese la matrícula"
+                 name="matricula" required></input>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="anio">Año:</label>
+          <input type="number" class="form-control" id="anio"
+                 placeholder="Ingrese el año"
+                 name="anio" required></input>
+        </div>
+        <button type="submit" class="btn btn-danger"
+                id="btn-add-new-vehiculo">Guardar</button>
+      </form>
+      <div id="response" style="display:none; margin-top:10px">
+        <pre id="jsonOutput"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('add_new_vehiculo').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const marca = document.getElementById('marca').value;
+    const modelo = document.getElementById('modelo').value;
+    const color = document.getElementById('color').value;
+    const matricula = document.getElementById('matricula').value;
+    const anio = parseInt(document.getElementById('anio').value);
+
+    const carData = {
+      marca: {
+        nombreMarca: marca,
+        modelo: {
+          nombreModelo: modelo,
+          colorModelo: color
+        }
+      },
+      matricula: matricula,
+      anio: anio
+    };
+
+    fetch('http://localhost:8080/vehiculos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(carData)
+    })
+            .then(response => response.json())
+            .then(data => {
+              // Redirigir a la página de listado de vehículos
+              window.location.href = '/vehiculosList.html';
+            })
+            .catch(error => console.error('Error:', error));
+  });
+</script>
+</body>
+</html>
