@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MarcaDaoH2 implements IDao<Marca> {
 
-    private static final String SQL_INSERT = "INSERT INTO MARCAS (NOMBRE_MODELO, COLOR_MODELO) VALUES(?,?)";
+    private static final String SQL_INSERT = "INSERT INTO MARCAS (NOMBRE_MARCA, MODELO_ID) VALUES(?,?)";
 
     private static final String SQL_SELECT_ID = "SELECT * FROM MARCAS WHERE ID = ?";
 
@@ -24,6 +24,10 @@ public class MarcaDaoH2 implements IDao<Marca> {
     public Marca save(Marca marca) {
         Connection connection = null;
         try {
+            ModeloDaoH2 modeloDao = new ModeloDaoH2();
+            modeloDao.save(marca.getModelo());
+
+            connection = DB.getConnection();
             PreparedStatement ps = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, marca.getNombreMarca());
             ps.setInt(2, marca.getModelo().getId());
@@ -131,7 +135,7 @@ public class MarcaDaoH2 implements IDao<Marca> {
 
             while (rs.next()) {
 
-                modelo = modeloDaoH2.findById(rs.getInt(6));
+                modelo = modeloDaoH2.findById(rs.getInt(3));
                 marcas.add(new Marca(rs.getInt(1), rs.getString(2),
                         modelo));
             }
