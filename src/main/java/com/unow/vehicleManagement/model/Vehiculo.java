@@ -10,19 +10,19 @@ public class Vehiculo {
 
     private String matricula;
 
-    private LocalDate anio;
+    private Integer anio;
 
     public Vehiculo() {
     }
 
-    public Vehiculo(Integer id, Marca marca, String matricula, LocalDate anio) {
+    public Vehiculo(Integer id, Marca marca, String matricula, Integer anio) {
         this.id = id;
         this.marca = marca;
         this.matricula = matricula;
         this.anio = anio;
     }
 
-    public Vehiculo(Marca marca, String matricula, LocalDate anio) {
+    public Vehiculo(Marca marca, String matricula, Integer anio) {
         this.marca = marca;
         this.matricula = matricula;
         this.anio = anio;
@@ -52,11 +52,11 @@ public class Vehiculo {
         this.matricula = matricula;
     }
 
-    public LocalDate getAnio() {
+    public Integer getAnio() {
         return anio;
     }
 
-    public void setAnio(LocalDate anio) {
+    public void setAnio(Integer anio) {
         this.anio = anio;
     }
 }

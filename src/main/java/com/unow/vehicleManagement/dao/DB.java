@@ -28,7 +28,10 @@ public class DB {
             "VEHICULOS; CREATE TABLE VEHICULOS (ID INT AUTO_INCREMENT PRIMARY KEY, " +
             "MARCA_ID INT NOT NULL, " +
             "MATRICULA VARCHAR(6) NOT NULL, " +
-            "AÑO DATE NOT NULL)";
+            "ANIO INT NOT NULL)";
+
+    private static final String SQL_INSERT = "INSERT INTO MODELOS(NOMBRE_MODELO, COLOR_MODELO" +
+            ") VALUES ('Sail', 'rojo');";
 
     public static Connection getConnection() throws Exception{
         Class.forName(DRIVER);
@@ -43,7 +46,7 @@ public class DB {
             statement.execute(SQL_DROP_CREATE_MODELOS);
             statement.execute(SQL_DROP_CREATE_MARCAS);
             statement.execute(SQL_DROP_CREATE_VEHICULOS);
-            //statement.execute(SQL_INSERT);
+            statement.execute(SQL_INSERT);
 
         }catch (Exception e) {
             e.printStackTrace();

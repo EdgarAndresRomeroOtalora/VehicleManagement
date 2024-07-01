@@ -24,10 +24,14 @@ public class VehiculoDaoH2 implements IDao<Vehiculo>{
     public Vehiculo save(Vehiculo vehiculo) {
         Connection connection = null;
         try {
+            MarcaDaoH2 marcaDaoH2 = new MarcaDaoH2();
+            marcaDaoH2.save(vehiculo.getMarca());
+
+            connection = DB.getConnection();
             PreparedStatement ps = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, vehiculo.getMarca().getId());
             ps.setString(2, vehiculo.getMatricula());
-            ps.setDate(3, Date.valueOf(vehiculo.getAnio()));
+            ps.setInt(3, vehiculo.getAnio());
             ps.execute();
 
             ResultSet rs = ps.getGeneratedKeys();
@@ -64,7 +68,8 @@ public class VehiculoDaoH2 implements IDao<Vehiculo>{
             while (rs.next()) {
                 Marca marca = marcaDaoH2.findById(rs.getInt(2));
 
-                vehiculo = new Vehiculo(marca, rs.getString(2), rs.getDate(3).toLocalDate());
+                vehiculo = new Vehiculo(rs.getInt(1),marca, rs.getString(3), rs.getInt(4
+                ));
             }
 
         }catch (Exception e){
@@ -88,7 +93,8 @@ public class VehiculoDaoH2 implements IDao<Vehiculo>{
             PreparedStatement ps = connection.prepareStatement(SQL_UPDATE);
             ps.setInt(1, vehiculo.getMarca().getId());
             ps.setString(2, vehiculo.getMatricula());
-            ps.setDate(3, Date.valueOf(vehiculo.getAnio()));
+            ps.setInt(3, vehiculo.getAnio());
+            ps.setInt(4, vehiculo.getId());
             ps.execute();
 
         }catch (Exception e){
@@ -136,7 +142,7 @@ public class VehiculoDaoH2 implements IDao<Vehiculo>{
 
                 marca = marcaDaoH2.findById(rs.getInt(2));
                 vehiculos.add(new Vehiculo(rs.getInt(1), marca,
-                        rs.getString(3), rs.getDate(4).toLocalDate()));
+                        rs.getString(3), rs.getInt(4)));
             }
 
         } catch (Exception e){
