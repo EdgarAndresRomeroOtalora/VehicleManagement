@@ -1,0 +1,16 @@
+com\unow\vehicleManagement\controller\VehiculoController.class
+com\unow\vehicleManagement\model\Vehiculo.class
+com\unow\vehicleManagement\controller\ModeloController.class
+com\unow\vehicleManagement\controller\MarcaController.class
+com\unow\vehicleManagement\dao\IDao.class
+com\unow\vehicleManagement\model\Modelo.class
+com\unow\vehicleManagement\controller\ErrorResponse.class
+com\unow\vehicleManagement\service\VehiculoService.class
+com\unow\vehicleManagement\dao\VehiculoDaoH2.class
+com\unow\vehicleManagement\dao\DB.class
+com\unow\vehicleManagement\dao\MarcaDaoH2.class
+com\unow\vehicleManagement\VehicleManagementApplication.class
+com\unow\vehicleManagement\model\Marca.class
+com\unow\vehicleManagement\dao\ModeloDaoH2.class
+com\unow\vehicleManagement\service\ModeloService.class
+com\unow\vehicleManagement\service\MarcaService.class
