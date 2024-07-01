@@ -74,7 +74,7 @@
         <button type="submit" class="btn btn-danger"
                 id="btn-add-new-vehiculo">Guardar</button>
       </form>
-      <div id="response" style="display:none; margin-top:10px">
+      <div id="response" class="alert alert-danger" style="display:none; margin-top:10px">
         <pre id="jsonOutput"></pre>
       </div>
     </div>
@@ -84,6 +84,11 @@
 <script>
   document.getElementById('add_new_vehiculo').addEventListener('submit', function(event) {
     event.preventDefault();
+
+    // Limpiar mensajes de error previos
+    const responseDiv = document.getElementById('response');
+    responseDiv.style.display = 'none';
+    document.getElementById('jsonOutput').textContent = '';
 
     const marca = document.getElementById('marca').value;
     const modelo = document.getElementById('modelo').value;
@@ -110,12 +115,34 @@
       },
       body: JSON.stringify(carData)
     })
-            .then(response => response.json())
-            .then(data => {
-              // Redirigir a la página de listado de vehículos
-              window.location.href = '/vehiculosList.html';
-            })
-            .catch(error => console.error('Error:', error));
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(errorData => {
+          throw new Error(errorData.message || 'Error en la solicitud');
+        }).catch(() => {
+          throw new Error('Error en la solicitud');
+        });
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Redirigir a la página de listado de vehículos
+      window.location.href = '/vehiculosList.html';
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      responseDiv.style.display = 'block';
+      document.getElementById('jsonOutput').textContent = error.message;
+    });
+  });
+
+  // Limpiar el mensaje de error al cambiar el valor de los campos del formulario
+  const inputs = document.querySelectorAll('#add_new_vehiculo input');
+  inputs.forEach(input => {
+    input.addEventListener('input', () => {
+      document.getElementById('response').style.display = 'none';
+      document.getElementById('jsonOutput').textContent = '';
+    });
   });
 </script>
 </body>

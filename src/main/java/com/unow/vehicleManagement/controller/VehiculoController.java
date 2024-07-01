@@ -4,6 +4,8 @@ import com.unow.vehicleManagement.model.Marca;
 import com.unow.vehicleManagement.model.Vehiculo;
 import com.unow.vehicleManagement.service.MarcaService;
 import com.unow.vehicleManagement.service.VehiculoService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,13 +26,30 @@ public class VehiculoController {
     }
 
     @PostMapping
-    public Vehiculo save(@RequestBody Vehiculo vehiculo) {
-        return vehiculoService.save(vehiculo);
+    public ResponseEntity<?> save(@RequestBody Vehiculo vehiculo) {
+        if(vehiculo.getMatricula().length()!=6){
+            ErrorResponse errorResponse = new ErrorResponse("La matricula debe ser de 6 caracteres");
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+        if(vehiculo.getAnio() < 1000 || vehiculo.getAnio() > 9999){
+            ErrorResponse errorResponse = new ErrorResponse("el formato del año no es correcto");
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(vehiculoService.save(vehiculo));
     }
 
     @PutMapping
-    public void update(@RequestBody Vehiculo vehiculo) {
+    public ResponseEntity<?> update(@RequestBody Vehiculo vehiculo) {
+        if(vehiculo.getMatricula().length()!=6){
+            ErrorResponse errorResponse = new ErrorResponse("La matricula debe ser de 6 caracteres");
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+        if(vehiculo.getAnio() < 1000 || vehiculo.getAnio() > 9999){
+            ErrorResponse errorResponse = new ErrorResponse("el formato del año no es correcto");
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
         vehiculoService.update(vehiculo);
+        return ResponseEntity.ok("Vehiculo Actualizado Correctamente");
     }
 
     @DeleteMapping("/{id}")
